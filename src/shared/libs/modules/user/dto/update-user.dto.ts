@@ -22,6 +22,6 @@ export class UpdateUserDto {
   public password?: string;
 
   @IsOptional()
-  @IsEnum(UserType, {message: CreateUserValidationMessage.userType.invalid})
+  @IsEnum(UserType, {message: CreateUserValidationMessage.userType.invalidFormat})
   public userType?: UserType;
 }
