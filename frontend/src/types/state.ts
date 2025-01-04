@@ -1,11 +1,11 @@
 import store from '../store';
 
-import type { Offer, Comment, City, SortName, User } from './types';
+import type { Offer, Comment, City, SortName, User, ListOffer } from './types';
 import { AuthorizationStatus, SubmitStatus } from '../const';
 
 
 export type SiteData = {
-    offers: Offer[];
+    offers: ListOffer[];
     isOffersLoading: boolean;
     offer: Offer | null;
     isOfferLoading: boolean;

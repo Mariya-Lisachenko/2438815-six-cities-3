@@ -78,11 +78,12 @@ export class UserController extends BaseController {
     });
 
     this.addRoute({
-      path: '/avatar',
+      path: '/:userId/avatar',
       method: HttpMethod.Patch,
       handler: this.uploadAvatar,
       middlewares: [
-        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('userId'),
+        new DocumentExistsMiddleware(this.userService, 'User', 'userId'),
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
       ]
     });
@@ -91,6 +92,9 @@ export class UserController extends BaseController {
       path: '/login',
       method: HttpMethod.Get,
       handler: this.checkAuthenticate,
+      //middlewares: [
+      //new PrivateRouteMiddleware(),
+      //]
     });
   }
 
@@ -122,25 +126,33 @@ export class UserController extends BaseController {
     this.ok(res, Object.assign(responseData, { token }));
   }
 
-  public async uploadAvatar({ tokenPayload, file }: Request, res: Response) {
+  public async uploadAvatar({params, file}: Request, res: Response) {
     const avatarPath = file?.filename ?? DEFAULT_AVATAR_FILE_NAME;
     const uploadFile = { avatarPath: avatarPath };
-    await this.userService.updateById(tokenPayload.id, uploadFile);
+    const {userId} = params;
+    await this.userService.updateById(userId, uploadFile);
     this.created(res, fillDTO(UploadUserAvatarRdo, { filepath: uploadFile.avatarPath }));
   }
 
-  public async checkAuthenticate({ tokenPayload: { email }}: Request, res: Response) {
-    const foundedUser = await this.userService.findByEmail(email);
+  public async checkAuthenticate({tokenPayload}: Request, res: Response) {
+    if (tokenPayload.email) {
+      const foundedUser = await this.userService.findByEmail(tokenPayload.email);
 
-    if (! foundedUser) {
+      if (! foundedUser) {
+        throw new HttpError(
+          StatusCodes.UNAUTHORIZED,
+          'Unauthorized',
+          'UserController'
+        );
+      }
+
+      this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
+    } else {
       throw new HttpError(
         StatusCodes.UNAUTHORIZED,
         'Unauthorized',
-        'UserController'
-      );
+        'UserController');
     }
-
-    this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
   }
 
   public async pushFavoriteOffer({ params, tokenPayload }: Request<ParamOfferId>, res: Response) {

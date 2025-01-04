@@ -78,7 +78,7 @@ paths:
       summary: Проверка состояния пользователя
       description: Возвращает информацию по авторизованному пользователю - в заголовке передаётся токен авторизации.
       parameters:
-        - name: X-Token
+        - name: Authorization
           in: header
           description: token to be passed as a header
           required: true
@@ -96,35 +96,13 @@ paths:
         "403":
           description: Нет доступа, пользователь не авторизован.
 
-  /users/logout:
-    post:
-      tags:
-        - users
-      summary: Выход из закрытой части приложения
-      description: Разлогинивает залогиненного пользователя - в заголовке передаётся токен авторизации.
-      parameters:
-        - name: X-Token
-          in: header
-          description: token to be passed as a header
-          required: true
-          schema:
-            type: string
-
-      responses:
-        "200":
-          description: Пользователь авторизован, его разлогинивает.
-
-        "403":
-          description: Нет доступа, пользователь не авторизован.
-
-  /offers/{userId}/{offerId}/updateFavorites:
+  /users/favorites/{offerId}:
     patch:
       tags:
-        - offers
-      summary: Редактирование наличия предложения в избранных у пользователя.
-      description: Возвращает объект предложения с новым статусом, переданным в запросе.
+        - users
+      summary: Добавляет предложение в избранные пользователя.
       parameters:
-          - name: X-Token
+          - name: Authorization
             in: header
             description: token to be passed as a header
             required: true
@@ -138,28 +116,9 @@ paths:
             schema:
               type: string
 
-          - name: userId
-            in: path
-            required: true
-            description: Id пользователя
-            schema:
-              type: string
-
-      requestBody:
-        description: Новый статус
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/favoriteOffer'
-        required: true
-
       responses:
           '200':
-            description: Предложение с изменённым статусом.
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/offer'
+            description: Всё хорошо.
 
           '403':
             description: Нет доступа, пользователь не авторизован.
@@ -167,14 +126,12 @@ paths:
           '404':
             description:  Такого предложения не существует.
 
-  /offers/{userId}/favorites:
-    get:
+    delete:
       tags:
-        - offers
-      summary: Список избранных предложений пользователя.
-      description: Возвращает список избранных предложений пользователя.
+        - users
+      summary: Удаляет предложение из избранных пользователя.
       parameters:
-          - name: X-Token
+          - name: Authorization
             in: header
             description: token to be passed as a header
             required: true
@@ -188,29 +145,37 @@ paths:
             schema:
               type: string
 
-          - name: userId
-            in: path
+      responses:
+          '200':
+            description: Всё хорошо.
+
+          '403':
+            description: Нет доступа, пользователь не авторизован.
+
+          '404':
+            description:  Такого предложения не существует.
+
+  /users/favorites:
+    get:
+      tags:
+        - users
+      summary: Список избранных предложений пользователя.
+      description: Возвращает список избранных предложений пользователя.
+      parameters:
+          - name: Authorization
+            in: header
+            description: token to be passed as a header
             required: true
-            description: Id пользователя
             schema:
               type: string
 
-      requestBody:
-        description: Список избранных предложений
-        content:
-          application/json:
-            schema:
-              type: array
-              $ref: '#/components/schemas/listOffer'
-        required: true
-
       responses:
           '200':
-            description: Предложение с изменённым статусом.
+            description: Всё хорошо
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/offer'
+                  $ref: '#/components/schemas/listOffer'
 
           '403':
             description: Нет доступа, пользователь не авторизован.
@@ -222,7 +187,7 @@ paths:
       summary: Создание нового предложения.
       description: Создаёт новое предложение, если пользователь авторизован.
       parameters:
-          - name: X-Token
+          - name: Authorization
             in: header
             description: token to be passed as a header
             required: true
@@ -253,7 +218,7 @@ paths:
       summary: Получение списка предложений.
       description: Получает предложения.
       parameters:
-          - name: X-Token
+          - name: Authorization
             in: header
             description: token to be passed as a header
             required: true
@@ -274,9 +239,6 @@ paths:
               schema:
                 type: array
                 $ref: "#/components/schemas/listOffer"
-
-        "403":
-          description: Нет доступа, пользователь не авторизован.
 
   /offers/{offerId}:
     get:
@@ -309,7 +271,7 @@ paths:
       summary: Редактирование предложения.
       description: Редактирует предложение по его id, если пользователь авторизован.
       parameters:
-        - name: X-Token
+        - name: Authorization
           in: header
           description: token to be passed as a header
           required: true

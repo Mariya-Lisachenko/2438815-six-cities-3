@@ -15,7 +15,7 @@ export class CreateOfferDto {
   public publicationDate!: Date;
 
   @IsEnum(CityNames, {message: OfferValidationMessage.cityName.invalid})
-  public cityName!: string;
+  public cityName!: CityNames;
 
   public preview!: string;
 
@@ -47,5 +47,5 @@ export class CreateOfferDto {
   @IsEnum(Facilities, {each: true, message: OfferValidationMessage.facilities.invalid})
   public facilities!: Facilities[];
 
-  public userId!: string;
+  public userId?: string;
 }

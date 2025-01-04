@@ -16,7 +16,7 @@ export class ListItemOfferRdo {
   public cityName!: string;
 
   @Expose()
-  public preview!: number;
+  public preview!: string;
 
   @Expose()
   public premium!: boolean;

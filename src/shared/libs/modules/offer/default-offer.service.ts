@@ -174,7 +174,6 @@ export class DefaultOfferService implements OfferService {
   }
 
   public async exists(documentId: string): Promise<boolean> {
-    this.logger.info('EEEEEEEEEEEExists started');
     return (await this.offerModel.exists({_id: documentId}) !== null);
   }
 

@@ -1,12 +1,12 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import type { State } from '../../types/state';
-import type { Offer, Comment } from '../../types/types';
+import type { Offer, Comment, ListOffer } from '../../types/types';
 import { Comparator, MAX_COMMENTS, StoreSlice, SubmitStatus } from '../../const';
 import { getCity, getSorting } from '../site-process/selectors';
 
 export const getIsOffersLoading = ({ [StoreSlice.SiteData]: SITE_DATA }: State): boolean => SITE_DATA.isOffersLoading;
-export const getOffers = ({ [StoreSlice.SiteData]: SITE_DATA}: State): Offer[] => SITE_DATA.offers;
+export const getOffers = ({ [StoreSlice.SiteData]: SITE_DATA}: State): ListOffer[] => SITE_DATA.offers;
 
 export const getIsFavoriteOffersLoading = ({ [StoreSlice.SiteData]: SITE_DATA }: State): boolean => SITE_DATA.isFavoriteOffersLoading;
 export const getFavoriteOffers = ({ [StoreSlice.SiteData]: SITE_DATA}: State): Offer[] => SITE_DATA.favoriteOffers;

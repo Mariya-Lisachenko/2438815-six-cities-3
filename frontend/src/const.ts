@@ -1,4 +1,4 @@
-import { Offer, Location, CityName, SortName } from './types/types';
+import { Offer, Location, CityName, SortName, ListOffer } from './types/types';
 
 export const CITIES = [
   'Paris',
@@ -43,13 +43,13 @@ export enum AppRoute {
 }
 
 export enum ApiRoute {
-  Offers = '/hotels',
-  Login = '/login',
+  Offers = 'offers',
+  Login = '/users/login',
   Logout = '/logout',
-  Register = '/register',
+  Register = 'users/register',
   Avatar = '/avatar',
   Comments = '/comments',
-  Favorite = '/favorite',
+  Favorite = '/favorites',
   Premium = '/premium',
 }
 
@@ -85,7 +85,7 @@ export enum SubmitStatus {
 }
 
 export const Comparator: {
-  [key in SortName]: (a: Offer, b: Offer) => number;
+  [key in SortName]: (a: Offer | ListOffer, b: Offer | ListOffer) => number;
 } = {
   Popular: () => 0,
   PriceIncrease: (a, b) => a.price - b.price,

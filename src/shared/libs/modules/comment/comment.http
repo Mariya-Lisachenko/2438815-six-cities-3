@@ -2,13 +2,13 @@
 ## Создать комментарий
 
 POST http://localhost:5000/comments HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFicmFjYWRhYnJhMkBtYWlsLnJ1IiwidXNlck5hbWUiOiJDYXB0YWluIEphY2siLCJpZCI6IjY3NzdkOGU5NzI1ZjBkNzQ0ZmM5ZDU1MSIsImlhdCI6MTczNTkxNzE3NiwiZXhwIjoxNzM2MDg5OTc2fQ.n45pKck1NpcOxvsHtR3-0-mQEDTrusOrbixdNYbJ6TE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InR1cm5lckBtYWlsLnJ1IiwidXNlck5hbWUiOiLQn9GA0L7RgdGC0L4g0KPQuNC70LsiLCJpZCI6IjY3Nzg2YWM2ZDUyYTNjM2ExNjQ2ZTMyNiIsImlhdCI6MTczNTk0NDkyMywiZXhwIjoxNzM2MTE3NzIzfQ.Sj7IS9W4gghzIBRQDOKqdpmFa8lI34HOxkaAs9gkZX0
 Content-Type: application/json
 
 {
   "text": "Сколько вампиров приходится на квадратный метр????",
-  "offerId": "67780fbc022336a01ee0a4b7",
-  "rating": 2
+  "offerId": "67786a5dbe921f24cebe8f41",
+  "rating": 3
 }
 
 ###
